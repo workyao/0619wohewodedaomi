@@ -72,9 +72,48 @@ Page({
     }
   },
 
+  // 统一错误处理
+  handleError(error, defaultMessage = '操作失败') {
+    console.error('Error:', error)
+    let message = defaultMessage
+
+    if (error && error.message) {
+      message = error.message
+    } else if (typeof error === 'string') {
+      message = error
+    }
+
+    wx.showToast({
+      title: message,
+      icon: 'none',
+      duration: 2000
+    })
+  },
+
+  // 网络错误处理
+  handleNetworkError(error) {
+    console.error('Network Error:', error)
+    wx.showModal({
+      title: '网络错误',
+      content: '网络连接失败，请检查网络设置后重试',
+      showCancel: true,
+      confirmText: '重试',
+      success: (res) => {
+        if (res.confirm) {
+          this.refreshData()
+        }
+      }
+    })
+  },
+
   // 处理用户登录
   handleLogin() {
+    wx.showLoading({
+      title: '登录中...'
+    })
+
     app.login().then(userInfo => {
+      wx.hideLoading()
       this.setData({
         userInfo: userInfo
       })
@@ -84,20 +123,18 @@ Page({
         icon: 'success'
       })
     }).catch(err => {
-      wx.showToast({
-        title: '登录失败',
-        icon: 'error'
-      })
+      wx.hideLoading()
+      this.handleError(err, '登录失败，请重试')
     })
   },
 
   // 加载用户数据
   loadUserData() {
     const db = wx.cloud.database()
-    
+
     // 获取用户基础信息
     db.collection('users').where({
-      openid: '{openid}'
+      openid: app.globalData.openid
     }).get().then(res => {
       if (res.data.length > 0) {
         const userData = res.data[0]
@@ -109,7 +146,7 @@ Page({
         })
       }
     }).catch(err => {
-      console.error('获取用户数据失败：', err)
+      this.handleNetworkError(err)
     })
   },
 
@@ -117,9 +154,9 @@ Page({
   loadTodayCheckin() {
     const db = wx.cloud.database()
     const today = new Date().toISOString().split('T')[0]
-    
+
     db.collection('checkins').where({
-      openid: '{openid}',
+      openid: app.globalData.openid,
       date: today
     }).get().then(res => {
       if (res.data.length > 0) {
@@ -198,7 +235,7 @@ Page({
       this.handleLogin()
       return
     }
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/checkin/checkin'
     })
   },

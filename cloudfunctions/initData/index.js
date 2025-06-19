@@ -103,14 +103,23 @@ exports.main = async (event, context) => {
 async function initSongs() {
   const songs = db.collection('songs')
   
-  // 检查是否已经初始化
-  const existingSongs = await songs.count()
-  if (existingSongs.total > 0) {
-    return {
-      success: true,
-      message: '歌曲数据已存在，跳过初始化',
-      count: existingSongs.total
+  try {
+    // 先尝试查询现有数据
+    const existingSongs = await songs.limit(1).get()
+    
+    // 如果已有数据且数量足够，跳过初始化
+    if (existingSongs.data.length > 0) {
+      const totalCount = await songs.count()
+      if (totalCount.total >= songsData.length) {
+        return {
+          success: true,
+          message: '歌曲数据已存在，跳过初始化',
+          count: totalCount.total
+        }
+      }
     }
+  } catch (error) {
+    console.log('查询现有歌曲数据失败，继续初始化：', error.message)
   }
   
   // 批量添加歌曲
@@ -119,10 +128,14 @@ async function initSongs() {
   
   for (let i = 0; i < songsData.length; i += batchSize) {
     const batch = songsData.slice(i, i + batchSize)
-    const batchResult = await songs.add({
-      data: batch
-    })
-    results.push(batchResult)
+    try {
+      const batchResult = await songs.add({
+        data: batch
+      })
+      results.push(batchResult)
+    } catch (error) {
+      console.error('添加歌曲批次失败：', error)
+    }
   }
   
   return {
@@ -175,25 +188,42 @@ async function initCategories() {
     }
   ]
   
-  // 检查是否已经初始化
-  const existingCategories = await categories.count()
-  if (existingCategories.total > 0) {
-    return {
-      success: true,
-      message: '分类数据已存在，跳过初始化',
-      count: existingCategories.total
+  try {
+    // 先尝试查询现有数据
+    const existingCategories = await categories.limit(1).get()
+    
+    // 如果已有数据且数量足够，跳过初始化
+    if (existingCategories.data.length > 0) {
+      const totalCount = await categories.count()
+      if (totalCount.total >= categoriesData.length) {
+        return {
+          success: true,
+          message: '分类数据已存在，跳过初始化',
+          count: totalCount.total
+        }
+      }
     }
+  } catch (error) {
+    console.log('查询现有分类数据失败，继续初始化：', error.message)
   }
   
   // 批量添加分类
-  const result = await categories.add({
-    data: categoriesData
-  })
-  
-  return {
-    success: true,
-    message: '分类数据初始化成功',
-    count: categoriesData.length,
-    result: result
+  try {
+    const result = await categories.add({
+      data: categoriesData
+    })
+    
+    return {
+      success: true,
+      message: '分类数据初始化成功',
+      count: categoriesData.length,
+      result: result
+    }
+  } catch (error) {
+    console.error('添加分类数据失败：', error)
+    return {
+      success: false,
+      error: `分类数据初始化失败: ${error.message}`
+    }
   }
 }

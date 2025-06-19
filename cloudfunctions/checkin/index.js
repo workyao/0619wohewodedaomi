@@ -38,10 +38,58 @@ exports.main = async (event, context) => {
   }
 }
 
+// 输入验证函数
+function validateCheckinData(data) {
+  const { songs, mood, note, date } = data
+
+  // 验证必需字段
+  if (!songs || !Array.isArray(songs) || songs.length === 0) {
+    throw new Error('请至少选择一首歌曲')
+  }
+
+  if (songs.length > 10) {
+    throw new Error('一次最多只能打卡10首歌曲')
+  }
+
+  // 验证歌曲数据格式
+  for (const song of songs) {
+    if (!song.id || !song.title) {
+      throw new Error('歌曲数据格式错误')
+    }
+  }
+
+  // 验证心情
+  const validMoods = ['happy', 'peaceful', 'moved', 'nostalgic', 'excited']
+  if (mood && !validMoods.includes(mood)) {
+    throw new Error('心情参数无效')
+  }
+
+  // 验证备注长度
+  if (note && note.length > 200) {
+    throw new Error('备注内容不能超过200字')
+  }
+
+  // 验证日期格式
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    throw new Error('日期格式错误')
+  }
+
+  // 验证日期不能是未来
+  const today = new Date().toISOString().split('T')[0]
+  if (date > today) {
+    throw new Error('不能为未来日期打卡')
+  }
+
+  return true
+}
+
 // 提交打卡
 async function submitCheckin(event, wxContext) {
   const { songs, mood, note, date } = event
   const openid = wxContext.OPENID
+
+  // 验证输入数据
+  validateCheckinData(event)
   
   // 检查今日是否已打卡
   const existingCheckin = await db.collection('checkins').where({

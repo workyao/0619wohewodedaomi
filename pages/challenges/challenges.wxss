@@ -1,0 +1,409 @@
+/* pages/challenges/challenges.wxss */
+
+.page-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #F5F5DC 0%, #DEB887 100%);
+  padding: 20rpx;
+}
+
+/* 顶部横幅 */
+.banner-section {
+  margin-bottom: 30rpx;
+}
+
+.banner-card {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  color: white;
+  box-shadow: 0 8rpx 20rpx rgba(139, 69, 19, 0.3);
+}
+
+.banner-content {
+  margin-bottom: 20rpx;
+}
+
+.banner-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.banner-desc {
+  font-size: 28rpx;
+  opacity: 0.9;
+  display: block;
+}
+
+.banner-stats {
+  text-align: center;
+  padding-top: 20rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-text {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+/* 区块标题 */
+.section-title {
+  margin-bottom: 20rpx;
+}
+
+.title-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #8B4513;
+}
+
+/* 挑战列表 */
+.challenges-list {
+  margin-bottom: 30rpx;
+}
+
+.challenge-card {
+  background: white;
+  border-radius: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.challenge-card.active {
+  border-left: 8rpx solid #FF6B35;
+}
+
+.challenge-card.completed {
+  border-left: 8rpx solid #4CAF50;
+}
+
+.challenge-card:active {
+  transform: scale(0.98);
+}
+
+.card-body {
+  padding: 30rpx;
+}
+
+/* 挑战头部 */
+.challenge-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20rpx;
+}
+
+.challenge-icon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.challenge-info {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.challenge-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.challenge-desc {
+  font-size: 26rpx;
+  color: #666;
+  display: block;
+  line-height: 1.4;
+}
+
+.challenge-status {
+  flex-shrink: 0;
+}
+
+.status-badge {
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: bold;
+}
+
+.status-badge.active {
+  background: #FF6B35;
+  color: white;
+}
+
+.status-badge.completed {
+  background: #4CAF50;
+  color: white;
+}
+
+.challenge-difficulty {
+  flex-shrink: 0;
+}
+
+.difficulty-badge {
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: bold;
+}
+
+.difficulty-badge.easy {
+  background: #4CAF50;
+  color: white;
+}
+
+.difficulty-badge.medium {
+  background: #FF9800;
+  color: white;
+}
+
+.difficulty-badge.hard {
+  background: #F44336;
+  color: white;
+}
+
+/* 挑战进度 */
+.challenge-progress {
+  margin-bottom: 20rpx;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.progress-text {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.progress-percent {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #FF6B35;
+}
+
+.progress-bar {
+  height: 12rpx;
+  background: #F0F0F0;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35 0%, #FF8A50 100%);
+  border-radius: 6rpx;
+  transition: width 0.3s ease;
+}
+
+/* 挑战详情 */
+.challenge-details {
+  margin-bottom: 20rpx;
+}
+
+.detail-item {
+  display: flex;
+  margin-bottom: 8rpx;
+}
+
+.detail-label {
+  font-size: 26rpx;
+  color: #666;
+  width: 120rpx;
+  flex-shrink: 0;
+}
+
+.detail-value {
+  font-size: 26rpx;
+  color: #333;
+  flex: 1;
+}
+
+/* 挑战奖励 */
+.challenge-reward {
+  margin-bottom: 20rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.reward-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 10rpx;
+}
+
+.reward-badge {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #8B4513;
+  padding: 6rpx 12rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+}
+
+.reward-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 挑战时间 */
+.challenge-time {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.time-label {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 10rpx;
+}
+
+.time-value {
+  font-size: 26rpx;
+  color: #FF6B35;
+  font-weight: bold;
+}
+
+/* 挑战成就 */
+.challenge-achievement {
+  text-align: center;
+}
+
+.achievement-badge {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #8B4513;
+  padding: 12rpx 20rpx;
+  border-radius: 20rpx;
+  margin-bottom: 10rpx;
+}
+
+.badge-icon {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.badge-name {
+  font-size: 26rpx;
+  font-weight: bold;
+}
+
+.completion-time {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+/* 挑战操作 */
+.challenge-actions {
+  text-align: center;
+}
+
+.btn {
+  border: none;
+  border-radius: 25rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  color: white;
+}
+
+.btn-primary:active {
+  background: linear-gradient(135deg, #A0522D 0%, #8B4513 100%);
+}
+
+.btn-small {
+  padding: 16rpx 40rpx;
+  font-size: 26rpx;
+}
+
+/* 规则说明 */
+.rules-section {
+  margin-top: 30rpx;
+}
+
+.rules-card {
+  background: white;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  padding: 30rpx 30rpx 0;
+  border-bottom: 1rpx solid #F0F0F0;
+  margin-bottom: 20rpx;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #8B4513;
+}
+
+.rules-list {
+  padding: 0 30rpx 30rpx;
+}
+
+.rule-item {
+  display: flex;
+  margin-bottom: 16rpx;
+  align-items: flex-start;
+}
+
+.rule-number {
+  font-size: 26rpx;
+  color: #8B4513;
+  font-weight: bold;
+  width: 40rpx;
+  flex-shrink: 0;
+}
+
+.rule-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* 加载状态 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  background: white;
+  padding: 40rpx;
+  border-radius: 20rpx;
+  text-align: center;
+}
+
+.loading-text {
+  font-size: 28rpx;
+  color: #333;
+}

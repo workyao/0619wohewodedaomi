@@ -53,7 +53,7 @@
     "disableSWC": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.19.4",
+  "libVersion": "3.8.9",
   "appid": "wxee163434e7e8bda3",
   "projectname": "我和我的稻米朋友们",
   "isGameTourist": false,

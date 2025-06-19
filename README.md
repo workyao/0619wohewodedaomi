@@ -1,6 +1,18 @@
-# 我和我的稻米朋友们
+# 🌾 我和我的稻米朋友们
 
 > 专为刀郎歌迷（稻米）打造的微信小程序，以手动打卡、音乐足迹记录为核心，搭建刀郎歌迷专属社交圈。
+
+[![GitHub stars](https://img.shields.io/github/stars/workyao/0619wohewodedaomitrae?style=social)](https://github.com/workyao/0619wohewodedaomitrae)
+[![Gitee stars](https://gitee.com/never-stop-breathing/0619wohewodedaomitrae/badge/star.svg?theme=dark)](https://gitee.com/never-stop-breathing/0619wohewodedaomitrae)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## 🚀 快速开始
+
+**新手用户请直接查看**: [📖 新手完整入门指南](./新手完整入门指南.md)
+
+**代码仓库地址**:
+- GitHub: https://github.com/workyao/0619wohewodedaomitrae
+- Gitee: https://gitee.com/never-stop-breathing/0619wohewodedaomitrae
 
 ## 项目简介
 
@@ -95,21 +107,71 @@
 
 1. **克隆项目**
    ```bash
-   git clone [项目地址]
-   cd 0619wohewodedaomi
+   # 从GitHub克隆
+   git clone https://github.com/workyao/0619wohewodedaomitrae.git
+   # 或从Gitee克隆
+   git clone https://gitee.com/never-stop-breathing/0619wohewodedaomitrae.git
+   
+   cd 0619wohewodedaomitrae
    ```
 
-2. **配置AppID**
-   - 在 `project.config.json` 中替换 `appid` 为你的小程序AppID
+2. **配置环境**
+   - 参考 [📋 快速开始指南](./QUICK_START.md)
+   - 查看 [🚀 部署指南](./DEPLOYMENT.md)
+   - 阅读 [🧪 测试指南](./TESTING.md)
 
-3. **配置云开发环境**
-   - 在 `app.js` 中替换 `env` 为你的云环境ID
+## 📚 文档导航
 
-4. **上传云函数**
-   - 在微信开发者工具中右键云函数目录，选择"上传并部署"
+| 文档 | 描述 | 适用人群 |
+|------|------|----------|
+| [📖 新手完整入门指南](./新手完整入门指南.md) | 零基础完整教程 | 新手开发者 |
+| [📋 快速开始](./QUICK_START.md) | 快速上手指南 | 有经验开发者 |
+| [🚀 部署指南](./DEPLOYMENT.md) | 详细部署步骤 | 运维人员 |
+| [🧪 测试指南](./TESTING.md) | 功能测试清单 | 测试人员 |
+| [📤 代码仓库上传指南](./代码仓库上传指南.md) | Git操作指南 | 项目维护者 |
+| [🤝 贡献指南](./CONTRIBUTING.md) | 参与开发指南 | 贡献者 |
+| [📊 项目总结](./PROJECT_SUMMARY.md) | 项目详细介绍 | 所有用户 |
 
-5. **初始化数据**
-   - 调用 `initData` 云函数初始化歌曲和分类数据
+## 🎯 项目状态
+
+- ✅ **基础功能**: 用户登录、歌曲打卡、社交互动
+- ✅ **数据库**: 完整的数据结构设计
+- ✅ **云函数**: 5个核心云函数已部署
+- ✅ **文档**: 完整的开发和使用文档
+- 🔄 **持续优化**: 根据用户反馈不断改进
+
+## 🤝 参与贡献
+
+我们欢迎任何形式的贡献！请查看 [🤝 贡献指南](./CONTRIBUTING.md) 了解如何参与。
+
+### 贡献方式
+- 🐛 报告Bug
+- 💡 提出新功能建议
+- 📝 改进文档
+- 🎨 优化UI设计
+- 💻 提交代码
+
+## 📄 开源协议
+
+本项目采用 [MIT License](./LICENSE) 开源协议。
+
+## 🙏 致谢
+
+感谢所有为本项目做出贡献的稻米朋友们！
+
+### 主要贡献者
+- **文文颖颖** - 项目发起人和主要开发者
+- **稻米志愿者团队** - 测试和反馈
+
+## 📞 联系我们
+
+- 📧 邮箱: [项目邮箱]
+- 💬 微信群: [稻米开发者交流群]
+- 🐛 问题反馈: [GitHub Issues](https://github.com/workyao/0619wohewodedaomitrae/issues)
+
+---
+
+**让我们一起在音乐的世界里成长，在稻米的大家庭中收获友谊！** 🌾🎵
 
 ### 数据库设计
 
