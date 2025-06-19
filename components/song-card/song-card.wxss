@@ -1,0 +1,121 @@
+/* components/song-card/song-card.wxss */
+
+.song-card {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: white;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 2rpx 8rpx rgba(139, 69, 19, 0.05);
+}
+
+.song-card:active {
+  transform: scale(0.98);
+}
+
+.song-card.checked {
+  border-color: var(--primary-color);
+  background: rgba(139, 69, 19, 0.05);
+}
+
+.song-checkbox {
+  margin-right: 16rpx;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid var(--border-color);
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.checkbox.checked {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.check-icon {
+  color: white;
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+.song-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.song-main {
+  flex: 1;
+}
+
+.song-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.song-album {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.song-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 16rpx;
+}
+
+.song-year {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+  margin-bottom: 4rpx;
+}
+
+.song-duration {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+.song-actions {
+  display: flex;
+  gap: 8rpx;
+}
+
+.action-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-color);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.action-btn:active {
+  background: var(--border-color);
+}
+
+.action-icon {
+  font-size: 24rpx;
+}

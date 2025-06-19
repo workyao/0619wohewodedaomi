@@ -1,0 +1,129 @@
+/* pages/settings/settings.wxss */
+
+.settings-section {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 16rpx;
+  padding: 0 20rpx;
+}
+
+.settings-card {
+  margin: 0 20rpx;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-item:active {
+  background: var(--background-color);
+}
+
+.setting-icon {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-color);
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  margin-right: 20rpx;
+}
+
+.setting-content {
+  flex: 1;
+}
+
+.setting-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4rpx;
+}
+
+.setting-desc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.setting-arrow {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-left: 16rpx;
+}
+
+.setting-value {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-left: 16rpx;
+}
+
+.setting-switch {
+  margin-left: 16rpx;
+  transform: scale(0.8);
+}
+
+.setting-picker {
+  margin-left: 16rpx;
+}
+
+.picker-text {
+  font-size: 24rpx;
+  color: var(--primary-color);
+  padding: 8rpx 16rpx;
+  border: 1rpx solid var(--border-color);
+  border-radius: 20rpx;
+  background: var(--background-color);
+}
+
+/* 退出登录 */
+.logout-section {
+  margin: 60rpx 20rpx 40rpx;
+}
+
+.logout-btn {
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+
+.logout-btn:active {
+  background: var(--error-color);
+  color: white;
+}
+
+/* 响应式调整 */
+@media (max-width: 375px) {
+  .setting-item {
+    padding: 20rpx 0;
+  }
+  
+  .setting-icon {
+    width: 50rpx;
+    height: 50rpx;
+    font-size: 24rpx;
+  }
+  
+  .setting-title {
+    font-size: 26rpx;
+  }
+  
+  .setting-desc {
+    font-size: 22rpx;
+  }
+}

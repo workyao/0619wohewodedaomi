@@ -1,0 +1,179 @@
+<!--pages/square/square.wxml-->
+<view class="page-container desert-pattern">
+  <!-- 顶部搜索和筛选 -->
+  <view class="search-section">
+    <view class="search-bar">
+      <input 
+        class="search-input" 
+        placeholder="搜索稻米动态..." 
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearch"
+      />
+      <button class="search-btn" bindtap="onSearch">🔍</button>
+    </view>
+    
+    <view class="filter-tabs">
+      <view 
+        class="filter-tab {{currentFilter === item.key ? 'active' : ''}}"
+        wx:for="{{filterOptions}}" 
+        wx:key="key"
+        bindtap="switchFilter"
+        data-filter="{{item.key}}"
+      >
+        <text class="tab-icon">{{item.icon}}</text>
+        <text class="tab-label">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 动态列表 -->
+  <view class="activities-section">
+    <view class="activities-list">
+      <view 
+        class="activity-card card"
+        wx:for="{{activities}}" 
+        wx:key="id"
+      >
+        <view class="card-body">
+          <!-- 用户信息 -->
+          <view class="user-header">
+            <image class="avatar avatar-medium" src="{{item.userAvatar}}" mode="aspectFill"></image>
+            <view class="user-info">
+              <text class="user-name">{{item.userName}}</text>
+              <text class="activity-time">{{item.timeAgo}}</text>
+            </view>
+            <view class="activity-type">
+              <text class="type-badge">{{item.typeName}}</text>
+            </view>
+          </view>
+
+          <!-- 打卡内容 -->
+          <view class="activity-content" wx:if="{{item.type === 'checkin'}}">
+            <text class="activity-desc">{{item.action}}</text>
+            
+            <!-- 选择的歌曲 -->
+            <view class="songs-list" wx:if="{{item.data.songs && item.data.songs.length > 0}}">
+              <view 
+                class="song-tag"
+                wx:for="{{item.data.songs}}" 
+                wx:key="id"
+                wx:for-item="song"
+                bindtap="goToSongDetail"
+                data-song-id="{{song.id}}"
+              >
+                🎵 {{song.title}}
+              </view>
+            </view>
+
+            <!-- 心情和备注 -->
+            <view class="mood-note" wx:if="{{item.data.mood || item.data.note}}">
+              <view class="mood" wx:if="{{item.data.mood}}">
+                <text class="mood-emoji">{{item.data.moodEmoji}}</text>
+                <text class="mood-text">{{item.data.moodText}}</text>
+              </view>
+              <text class="note" wx:if="{{item.data.note}}">{{item.data.note}}</text>
+            </view>
+          </view>
+
+          <!-- 互动区域 -->
+          <view class="interaction-area">
+            <view class="interaction-stats">
+              <text class="stat-item">
+                <text class="stat-icon">👍</text>
+                <text class="stat-count">{{item.likesCount || 0}}</text>
+              </text>
+              <text class="stat-item">
+                <text class="stat-icon">💬</text>
+                <text class="stat-count">{{item.commentsCount || 0}}</text>
+              </text>
+              <text class="stat-item">
+                <text class="stat-icon">🔄</text>
+                <text class="stat-count">{{item.sharesCount || 0}}</text>
+              </text>
+            </view>
+            
+            <view class="interaction-buttons">
+              <button 
+                class="interaction-btn {{item.isLiked ? 'liked' : ''}}"
+                bindtap="toggleLike"
+                data-activity-id="{{item.id}}"
+              >
+                <text class="btn-icon">{{item.isLiked ? '❤️' : '🤍'}}</text>
+                <text class="btn-text">点赞</text>
+              </button>
+              
+              <button 
+                class="interaction-btn"
+                bindtap="showComments"
+                data-activity-id="{{item.id}}"
+              >
+                <text class="btn-icon">💬</text>
+                <text class="btn-text">评论</text>
+              </button>
+              
+              <button 
+                class="interaction-btn"
+                bindtap="shareActivity"
+                data-activity="{{item}}"
+              >
+                <text class="btn-icon">🔄</text>
+                <text class="btn-text">分享</text>
+              </button>
+            </view>
+          </view>
+
+          <!-- 评论预览 -->
+          <view class="comments-preview" wx:if="{{item.recentComments && item.recentComments.length > 0}}">
+            <view 
+              class="comment-item"
+              wx:for="{{item.recentComments}}" 
+              wx:key="id"
+              wx:for-item="comment"
+            >
+              <text class="comment-user">{{comment.userName}}</text>
+              <text class="comment-content">{{comment.content}}</text>
+            </view>
+            <text 
+              class="view-all-comments"
+              bindtap="showComments"
+              data-activity-id="{{item.id}}"
+              wx:if="{{item.commentsCount > item.recentComments.length}}"
+            >
+              查看全部{{item.commentsCount}}条评论
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}">
+      <button class="btn btn-outline" bindtap="loadMore" disabled="{{loading}}">
+        {{loading ? '加载中...' : '加载更多'}}
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{activities.length === 0 && !loading}}">
+      <text class="empty-icon">🌾</text>
+      <text class="empty-text">暂无动态</text>
+      <text class="empty-desc">快去打卡分享你的音乐心情吧</text>
+      <button class="btn btn-primary" bindtap="goToCheckin">去打卡</button>
+    </view>
+  </view>
+
+  <!-- 发布按钮 -->
+  <view class="fab-container">
+    <button class="fab" bindtap="goToCheckin">
+      <text class="fab-icon">✏️</text>
+    </button>
+  </view>
+</view>
+
+<!-- 加载遮罩 -->
+<view class="loading-mask" wx:if="{{loading && activities.length === 0}}">
+  <view class="loading-content">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

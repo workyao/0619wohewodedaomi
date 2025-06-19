@@ -1,0 +1,162 @@
+<!--pages/friends/friends.wxml-->
+<view class="page-container">
+  <!-- 顶部统计 -->
+  <view class="stats-section">
+    <view class="stats-card card">
+      <view class="card-body">
+        <view class="stats-grid">
+          <view class="stat-item" bindtap="showFollowing">
+            <text class="stat-number">{{followingCount}}</text>
+            <text class="stat-label">关注</text>
+          </view>
+          <view class="stat-item" bindtap="showFollowers">
+            <text class="stat-number">{{followersCount}}</text>
+            <text class="stat-label">粉丝</text>
+          </view>
+          <view class="stat-item" bindtap="showMutualFriends">
+            <text class="stat-number">{{mutualFriendsCount}}</text>
+            <text class="stat-label">互关好友</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-section">
+    <view class="search-bar">
+      <input 
+        class="search-input" 
+        placeholder="搜索稻米朋友..." 
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearch"
+      />
+      <button class="search-btn" bindtap="onSearch">🔍</button>
+    </view>
+  </view>
+
+  <!-- 标签页 -->
+  <view class="tabs-section">
+    <view class="tabs">
+      <view 
+        class="tab-item {{currentTab === item.key ? 'active' : ''}}"
+        wx:for="{{tabs}}" 
+        wx:key="key"
+        bindtap="switchTab"
+        data-tab="{{item.key}}"
+      >
+        <text class="tab-text">{{item.name}}</text>
+        <text class="tab-count" wx:if="{{item.count > 0}}">({{item.count}})</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 朋友列表 -->
+  <view class="friends-section">
+    <view class="friends-list">
+      <view 
+        class="friend-card card"
+        wx:for="{{currentFriends}}" 
+        wx:key="openid"
+        wx:for-item="friend"
+      >
+        <view class="card-body">
+          <view class="friend-info">
+            <image class="avatar avatar-medium" src="{{friend.avatarUrl}}" mode="aspectFill"></image>
+            <view class="friend-details">
+              <text class="friend-name">{{friend.nickName}}</text>
+              <text class="friend-desc">{{friend.desc || '这个稻米很神秘...'}}</text>
+              <view class="friend-stats">
+                <text class="stat-text">连续打卡 {{friend.checkinDays}} 天</text>
+                <text class="stat-text">Lv.{{friend.level || 1}}</text>
+              </view>
+            </view>
+          </view>
+          
+          <view class="friend-actions">
+            <!-- 关注状态 -->
+            <button 
+              class="action-btn follow-btn {{friend.isFollowing ? 'following' : ''}}"
+              bindtap="toggleFollow"
+              data-friend="{{friend}}"
+              wx:if="{{currentTab !== 'search' || friend.openid !== userOpenid}}"
+            >
+              <text class="btn-text">{{friend.isFollowing ? '已关注' : '关注'}}</text>
+            </button>
+            
+            <!-- 私聊按钮 -->
+            <button 
+              class="action-btn chat-btn"
+              bindtap="startChat"
+              data-friend="{{friend}}"
+              wx:if="{{friend.isFollowing || friend.isFollower}}"
+            >
+              <text class="btn-icon">💬</text>
+            </button>
+            
+            <!-- 更多操作 -->
+            <button 
+              class="action-btn more-btn"
+              bindtap="showMoreActions"
+              data-friend="{{friend}}"
+            >
+              <text class="btn-icon">⋯</text>
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{hasMore}}">
+      <button class="btn btn-outline" bindtap="loadMore" disabled="{{loading}}">
+        {{loading ? '加载中...' : '加载更多'}}
+      </button>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{currentFriends.length === 0 && !loading}}">
+      <text class="empty-icon">{{emptyStateIcon}}</text>
+      <text class="empty-text">{{emptyStateText}}</text>
+      <text class="empty-desc">{{emptyStateDesc}}</text>
+      <button class="btn btn-primary" bindtap="goToSquare" wx:if="{{currentTab === 'following'}}">
+        去广场看看
+      </button>
+    </view>
+  </view>
+
+  <!-- 推荐朋友 -->
+  <view class="recommend-section" wx:if="{{currentTab === 'following' && recommendFriends.length > 0}}">
+    <view class="recommend-card card">
+      <view class="card-header">
+        <text class="card-title">🌟 推荐关注</text>
+      </view>
+      <view class="card-body">
+        <scroll-view class="recommend-scroll" scroll-x="true">
+          <view class="recommend-list">
+            <view 
+              class="recommend-item"
+              wx:for="{{recommendFriends}}" 
+              wx:key="openid"
+              wx:for-item="user"
+              bindtap="followRecommendUser"
+              data-user="{{user}}"
+            >
+              <image class="recommend-avatar" src="{{user.avatarUrl}}" mode="aspectFill"></image>
+              <text class="recommend-name">{{user.nickName}}</text>
+              <text class="recommend-reason">{{user.reason}}</text>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 加载遮罩 -->
+<view class="loading-mask" wx:if="{{loading && currentFriends.length === 0}}">
+  <view class="loading-content">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

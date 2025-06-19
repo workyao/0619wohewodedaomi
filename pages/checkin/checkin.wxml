@@ -1,0 +1,170 @@
+<!--pages/checkin/checkin.wxml-->
+<view class="page-container sand-texture">
+  <!-- 顶部状态栏 -->
+  <view class="checkin-header">
+    <view class="header-card card">
+      <view class="card-body">
+        <view class="checkin-info">
+          <view class="date-info">
+            <text class="current-date">{{todayDate}}</text>
+            <text class="checkin-status" wx:if="{{todayChecked}}">✓ 今日已打卡</text>
+            <text class="checkin-status pending" wx:else>待打卡</text>
+          </view>
+          <view class="streak-info">
+            <text class="streak-number">{{checkinDays}}</text>
+            <text class="streak-label">连续天数</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 歌曲分类选择 -->
+  <view class="category-section">
+    <view class="category-tabs">
+      <view 
+        class="category-tab {{currentCategory === item.key ? 'active' : ''}}"
+        wx:for="{{categories}}" 
+        wx:key="key"
+        bindtap="switchCategory"
+        data-category="{{item.key}}"
+      >
+        <text class="tab-icon">{{item.icon}}</text>
+        <text class="tab-label">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 歌曲列表 -->
+  <view class="songs-section">
+    <view class="songs-card card">
+      <view class="card-header">
+        <text class="card-title">{{currentCategoryName}} ({{currentSongs.length}}首)</text>
+        <view class="header-actions">
+          <text class="select-all" bindtap="toggleSelectAll">
+            {{allSelected ? '取消全选' : '全选'}}
+          </text>
+        </view>
+      </view>
+      <view class="card-body">
+        <view class="songs-list">
+          <view 
+            class="song-item {{item.checked ? 'checked' : ''}}"
+            wx:for="{{currentSongs}}" 
+            wx:key="id"
+            bindtap="toggleSong"
+            data-song-id="{{item.id}}"
+          >
+            <view class="song-checkbox">
+              <view class="checkbox {{item.checked ? 'checked' : ''}}">
+                <text class="check-icon" wx:if="{{item.checked}}">✓</text>
+              </view>
+            </view>
+            <view class="song-content">
+              <view class="song-main">
+                <text class="song-title">{{item.title}}</text>
+                <text class="song-album">{{item.album}}</text>
+              </view>
+              <view class="song-meta">
+                <text class="song-year">{{item.year}}</text>
+                <text class="song-duration">{{item.duration}}</text>
+              </view>
+            </view>
+            <view class="song-action" bindtap="viewSongDetail" data-song="{{item}}">
+              <text class="action-icon">ℹ️</text>
+            </view>
+          </view>
+        </view>
+        
+        <!-- 空状态 -->
+        <view class="empty-state" wx:if="{{currentSongs.length === 0}}">
+          <text class="empty-icon">🎵</text>
+          <text>暂无歌曲</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已选歌曲统计 -->
+  <view class="selected-summary" wx:if="{{selectedSongs.length > 0}}">
+    <view class="summary-card card">
+      <view class="card-body">
+        <view class="summary-content">
+          <text class="summary-text">已选择 {{selectedSongs.length}} 首歌曲</text>
+          <view class="selected-tags">
+            <text 
+              class="song-tag" 
+              wx:for="{{selectedSongs}}" 
+              wx:key="id"
+              bindtap="removeSong"
+              data-song-id="{{item.id}}"
+            >
+              {{item.title}} ×
+            </text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 打卡心情和备注 -->
+  <view class="mood-section">
+    <view class="mood-card card">
+      <view class="card-header">
+        <text class="card-title">今日心情</text>
+      </view>
+      <view class="card-body">
+        <view class="mood-selector">
+          <view 
+            class="mood-item {{currentMood === item.value ? 'selected' : ''}}"
+            wx:for="{{moods}}" 
+            wx:key="value"
+            bindtap="selectMood"
+            data-mood="{{item.value}}"
+          >
+            <text class="mood-emoji">{{item.emoji}}</text>
+            <text class="mood-label">{{item.label}}</text>
+          </view>
+        </view>
+        
+        <view class="note-input">
+          <textarea 
+            class="note-textarea"
+            placeholder="分享你今天听刀郎音乐的感受..."
+            value="{{checkinNote}}"
+            bindinput="onNoteInput"
+            maxlength="200"
+          ></textarea>
+          <text class="note-counter">{{checkinNote.length}}/200</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-actions">
+    <view class="actions-container">
+      <button 
+        class="btn btn-outline btn-large"
+        bindtap="saveDraft"
+        disabled="{{selectedSongs.length === 0}}"
+      >
+        保存草稿
+      </button>
+      <button 
+        class="btn btn-primary btn-large"
+        bindtap="submitCheckin"
+        disabled="{{selectedSongs.length === 0 || submitting}}"
+      >
+        {{submitting ? '提交中...' : '完成打卡'}}
+      </button>
+    </view>
+  </view>
+</view>
+
+<!-- 加载遮罩 -->
+<view class="loading-mask" wx:if="{{loading}}">
+  <view class="loading-content">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

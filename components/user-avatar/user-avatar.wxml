@@ -1,0 +1,15 @@
+<!--components/user-avatar/user-avatar.wxml-->
+<view class="user-avatar {{size}}" bindtap="onTap">
+  <image 
+    class="avatar-image" 
+    src="{{src || defaultAvatar}}" 
+    mode="aspectFill"
+    lazy-load="{{true}}"
+  ></image>
+  
+  <view class="avatar-badge" wx:if="{{badge}}">
+    <text class="badge-text">{{badge}}</text>
+  </view>
+  
+  <view class="online-indicator" wx:if="{{showOnline && isOnline}}"></view>
+</view>

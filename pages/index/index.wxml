@@ -1,0 +1,154 @@
+<!--pages/index/index.wxml-->
+<view class="page-container desert-pattern">
+  <!-- 顶部欢迎区域 -->
+  <view class="welcome-section">
+    <view class="welcome-card card">
+      <view class="card-body">
+        <view class="welcome-content">
+          <view class="welcome-icon">🌾</view>
+          <view class="welcome-text">
+            <text class="welcome-title">欢迎来到稻米之家</text>
+            <text class="welcome-subtitle">与刀郎音乐同行，记录每一个音乐时刻</text>
+          </view>
+        </view>
+        
+        <!-- 用户信息区域 -->
+        <view class="user-info" wx:if="{{userInfo}}">
+          <image class="avatar avatar-medium" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+          <view class="user-details">
+            <text class="user-name">{{userInfo.nickName}}</text>
+            <text class="user-status">稻米 · 已连续打卡 {{checkinDays}} 天</text>
+          </view>
+        </view>
+        
+        <!-- 未登录状态 -->
+        <view class="login-prompt" wx:else>
+          <button class="btn btn-primary" bindtap="handleLogin">
+            <text>🎵 加入稻米大家庭</text>
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日打卡状态 -->
+  <view class="today-checkin-section">
+    <view class="checkin-status-card card">
+      <view class="card-header">
+        <text class="card-title">今日打卡 {{todayDate}}</text>
+      </view>
+      <view class="card-body">
+        <view class="checkin-status" wx:if="{{todayChecked}}">
+          <view class="status-icon success">✓</view>
+          <view class="status-content">
+            <text class="status-title">今日已打卡</text>
+            <text class="status-desc">听了 {{todayCheckedSongs.length}} 首刀郎的歌</text>
+          </view>
+        </view>
+        
+        <view class="checkin-status" wx:else>
+          <view class="status-icon pending">🎵</view>
+          <view class="status-content">
+            <text class="status-title">今日还未打卡</text>
+            <text class="status-desc">快去记录你今天听的刀郎音乐吧</text>
+          </view>
+          <button class="btn btn-primary btn-small" bindtap="goToCheckin">
+            立即打卡
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-section">
+    <view class="stats-grid">
+      <view class="stat-item card">
+        <view class="stat-number">{{totalCheckins}}</view>
+        <view class="stat-label">总打卡次数</view>
+      </view>
+      <view class="stat-item card">
+        <view class="stat-number">{{checkinDays}}</view>
+        <view class="stat-label">连续打卡天数</view>
+      </view>
+      <view class="stat-item card">
+        <view class="stat-number">{{totalSongs}}</view>
+        <view class="stat-label">听过的歌曲</view>
+      </view>
+      <view class="stat-item card">
+        <view class="stat-number">{{friendsCount}}</view>
+        <view class="stat-label">稻米朋友</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 推荐歌曲 -->
+  <view class="recommend-section">
+    <view class="recommend-card card">
+      <view class="card-header">
+        <text class="card-title">今日推荐</text>
+      </view>
+      <view class="card-body">
+        <view class="song-item" wx:for="{{recommendSongs}}" wx:key="id" bindtap="goToSongDetail" data-song="{{item}}">
+          <view class="song-info">
+            <text class="song-title">{{item.title}}</text>
+            <text class="song-album">{{item.album}}</text>
+          </view>
+          <view class="song-action">
+            <text class="song-duration">{{item.duration}}</text>
+            <text class="arrow">→</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最新动态 -->
+  <view class="recent-activities">
+    <view class="activities-card card">
+      <view class="card-header">
+        <text class="card-title">稻米动态</text>
+        <text class="more-link" bindtap="goToSquare">查看更多</text>
+      </view>
+      <view class="card-body">
+        <view class="activity-item" wx:for="{{recentActivities}}" wx:key="id">
+          <image class="avatar avatar-small" src="{{item.userAvatar}}" mode="aspectFill"></image>
+          <view class="activity-content">
+            <text class="activity-text">
+              <text class="user-name">{{item.userName}}</text>
+              <text class="activity-desc">{{item.action}}</text>
+            </text>
+            <text class="activity-time">{{item.timeAgo}}</text>
+          </view>
+        </view>
+        
+        <view class="empty-state" wx:if="{{recentActivities.length === 0}}">
+          <text class="empty-icon">🌾</text>
+          <text>暂无动态，快去打卡分享吧</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <view class="action-grid">
+      <view class="action-item" bindtap="goToCheckin">
+        <view class="action-icon">📝</view>
+        <text class="action-label">今日打卡</text>
+      </view>
+      <view class="action-item" bindtap="goToCalendar">
+        <view class="action-icon">📅</view>
+        <text class="action-label">打卡日历</text>
+      </view>
+      <view class="action-item" bindtap="goToSquare">
+        <view class="action-icon">🏛️</view>
+        <text class="action-label">稻米广场</text>
+      </view>
+      <view class="action-item" bindtap="goToFriends">
+        <view class="action-icon">👥</view>
+        <text class="action-label">我的朋友</text>
+      </view>
+    </view>
+  </view>
+</view>

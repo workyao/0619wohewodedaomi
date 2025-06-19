@@ -1,0 +1,207 @@
+<!--pages/challenges/challenges.wxml-->
+<view class="page-container desert-pattern">
+  <!-- 顶部横幅 -->
+  <view class="banner-section">
+    <view class="banner-card">
+      <view class="banner-content">
+        <text class="banner-title">🏆 主题打卡挑战</text>
+        <text class="banner-desc">参与主题挑战，获得专属勋章</text>
+      </view>
+      <view class="banner-stats">
+        <text class="stats-text">已完成 {{completedChallenges}} 个挑战</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 进行中的挑战 -->
+  <view class="active-challenges-section" wx:if="{{activeChallenges.length > 0}}">
+    <view class="section-title">
+      <text class="title-text">🔥 进行中的挑战</text>
+    </view>
+    
+    <view class="challenges-list">
+      <view 
+        class="challenge-card card active"
+        wx:for="{{activeChallenges}}" 
+        wx:key="id"
+        bindtap="viewChallenge"
+        data-challenge="{{item}}"
+      >
+        <view class="card-body">
+          <view class="challenge-header">
+            <view class="challenge-icon">{{item.icon}}</view>
+            <view class="challenge-info">
+              <text class="challenge-title">{{item.title}}</text>
+              <text class="challenge-desc">{{item.description}}</text>
+            </view>
+            <view class="challenge-status">
+              <text class="status-badge active">进行中</text>
+            </view>
+          </view>
+          
+          <view class="challenge-progress">
+            <view class="progress-info">
+              <text class="progress-text">进度：{{item.progress}}/{{item.target}}</text>
+              <text class="progress-percent">{{item.progressPercent}}%</text>
+            </view>
+            <view class="progress-bar">
+              <view 
+                class="progress-fill" 
+                style="width: {{item.progressPercent}}%"
+              ></view>
+            </view>
+          </view>
+          
+          <view class="challenge-reward">
+            <text class="reward-label">奖励：</text>
+            <text class="reward-badge">{{item.reward.name}}</text>
+          </view>
+          
+          <view class="challenge-time">
+            <text class="time-label">剩余时间：</text>
+            <text class="time-value">{{item.remainingTime}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 可参与的挑战 -->
+  <view class="available-challenges-section">
+    <view class="section-title">
+      <text class="title-text">📋 可参与的挑战</text>
+    </view>
+    
+    <view class="challenges-list">
+      <view 
+        class="challenge-card card"
+        wx:for="{{availableChallenges}}" 
+        wx:key="id"
+        bindtap="viewChallenge"
+        data-challenge="{{item}}"
+      >
+        <view class="card-body">
+          <view class="challenge-header">
+            <view class="challenge-icon">{{item.icon}}</view>
+            <view class="challenge-info">
+              <text class="challenge-title">{{item.title}}</text>
+              <text class="challenge-desc">{{item.description}}</text>
+            </view>
+            <view class="challenge-difficulty">
+              <text class="difficulty-badge {{item.difficulty}}">{{item.difficultyText}}</text>
+            </view>
+          </view>
+          
+          <view class="challenge-details">
+            <view class="detail-item">
+              <text class="detail-label">目标：</text>
+              <text class="detail-value">{{item.targetText}}</text>
+            </view>
+            <view class="detail-item">
+              <text class="detail-label">时长：</text>
+              <text class="detail-value">{{item.duration}}</text>
+            </view>
+            <view class="detail-item">
+              <text class="detail-label">参与人数：</text>
+              <text class="detail-value">{{item.participantCount}}人</text>
+            </view>
+          </view>
+          
+          <view class="challenge-reward">
+            <text class="reward-label">奖励：</text>
+            <text class="reward-badge">{{item.reward.name}}</text>
+            <text class="reward-desc">{{item.reward.description}}</text>
+          </view>
+          
+          <view class="challenge-actions">
+            <button 
+              class="btn btn-primary btn-small"
+              bindtap="joinChallenge"
+              data-challenge="{{item}}"
+            >
+              参与挑战
+            </button>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已完成的挑战 -->
+  <view class="completed-challenges-section" wx:if="{{completedChallengesList.length > 0}}">
+    <view class="section-title">
+      <text class="title-text">✅ 已完成的挑战</text>
+    </view>
+    
+    <view class="challenges-list">
+      <view 
+        class="challenge-card card completed"
+        wx:for="{{completedChallengesList}}" 
+        wx:key="id"
+        bindtap="viewChallenge"
+        data-challenge="{{item}}"
+      >
+        <view class="card-body">
+          <view class="challenge-header">
+            <view class="challenge-icon">{{item.icon}}</view>
+            <view class="challenge-info">
+              <text class="challenge-title">{{item.title}}</text>
+              <text class="challenge-desc">{{item.description}}</text>
+            </view>
+            <view class="challenge-status">
+              <text class="status-badge completed">已完成</text>
+            </view>
+          </view>
+          
+          <view class="challenge-achievement">
+            <view class="achievement-badge">
+              <text class="badge-icon">{{item.reward.icon}}</text>
+              <text class="badge-name">{{item.reward.name}}</text>
+            </view>
+            <text class="completion-time">完成时间：{{item.completionTime}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 挑战规则说明 -->
+  <view class="rules-section">
+    <view class="rules-card card">
+      <view class="card-header">
+        <text class="card-title">📖 挑战规则</text>
+      </view>
+      <view class="card-body">
+        <view class="rules-list">
+          <view class="rule-item">
+            <text class="rule-number">1.</text>
+            <text class="rule-text">每个挑战都有特定的时间限制，请在规定时间内完成</text>
+          </view>
+          <view class="rule-item">
+            <text class="rule-number">2.</text>
+            <text class="rule-text">完成挑战后将获得专属勋章和称号奖励</text>
+          </view>
+          <view class="rule-item">
+            <text class="rule-number">3.</text>
+            <text class="rule-text">挑战进度实时更新，可随时查看完成情况</text>
+          </view>
+          <view class="rule-item">
+            <text class="rule-number">4.</text>
+            <text class="rule-text">部分挑战需要连续完成，中断后需重新开始</text>
+          </view>
+          <view class="rule-item">
+            <text class="rule-number">5.</text>
+            <text class="rule-text">挑战奖励将自动发放到个人账户</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 加载状态 -->
+<view class="loading-mask" wx:if="{{loading}}">
+  <view class="loading-content">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

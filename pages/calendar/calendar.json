@@ -1,0 +1,7 @@
+{
+  "usingComponents": {},
+  "navigationBarTitleText": "打卡日历",
+  "enablePullDownRefresh": true,
+  "backgroundColor": "#F5F5DC",
+  "backgroundTextStyle": "dark"
+}

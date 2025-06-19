@@ -1,0 +1,168 @@
+<!--pages/profile/profile.wxml-->
+<view class="page-container sand-texture">
+  <!-- 用户信息卡片 -->
+  <view class="user-card card">
+    <view class="card-body">
+      <view class="user-header">
+        <image class="avatar avatar-large" src="{{userInfo.avatarUrl}}" mode="aspectFill" wx:if="{{userInfo}}"></image>
+        <view class="user-info">
+          <text class="user-name">{{userInfo.nickName || '稻米用户'}}</text>
+          <text class="user-level">Lv.{{userLevel}} 稻米</text>
+          <text class="user-desc">{{userDesc || '这个稻米很神秘，什么都没有留下...'}}</text>
+        </view>
+        <button class="edit-btn" bindtap="editProfile">
+          <text class="edit-icon">✏️</text>
+        </button>
+      </view>
+      
+      <!-- 用户统计 -->
+      <view class="user-stats">
+        <view class="stat-item" bindtap="goToCalendar">
+          <text class="stat-number">{{checkinDays}}</text>
+          <text class="stat-label">连续打卡</text>
+        </view>
+        <view class="stat-item" bindtap="goToHistory">
+          <text class="stat-number">{{totalCheckins}}</text>
+          <text class="stat-label">总打卡数</text>
+        </view>
+        <view class="stat-item" bindtap="goToSongs">
+          <text class="stat-number">{{totalSongs}}</text>
+          <text class="stat-label">听过歌曲</text>
+        </view>
+        <view class="stat-item" bindtap="goToFriends">
+          <text class="stat-number">{{friendsCount}}</text>
+          <text class="stat-label">稻米朋友</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成就徽章 -->
+  <view class="badges-section">
+    <view class="badges-card card">
+      <view class="card-header">
+        <text class="card-title">🏆 我的成就</text>
+        <text class="badge-count">{{badges.length}}/{{totalBadges}}</text>
+      </view>
+      <view class="card-body">
+        <view class="badges-grid">
+          <view 
+            class="badge-item {{badge.unlocked ? 'unlocked' : 'locked'}}"
+            wx:for="{{allBadges}}" 
+            wx:key="id"
+            wx:for-item="badge"
+            bindtap="showBadgeDetail"
+            data-badge="{{badge}}"
+          >
+            <text class="badge-icon">{{badge.icon}}</text>
+            <text class="badge-name">{{badge.name}}</text>
+            <view class="badge-progress" wx:if="{{!badge.unlocked && badge.progress}}">
+              <text class="progress-text">{{badge.progress.current}}/{{badge.progress.total}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-card card">
+      <view class="card-body">
+        <view class="menu-list">
+          <view class="menu-item" bindtap="goToCalendar">
+            <view class="menu-icon">📅</view>
+            <text class="menu-title">打卡日历</text>
+            <text class="menu-desc">查看我的打卡历程</text>
+            <text class="menu-arrow">→</text>
+          </view>
+          
+          <view class="menu-item" bindtap="goToFriends">
+            <view class="menu-icon">👥</view>
+            <text class="menu-title">我的朋友</text>
+            <text class="menu-desc">管理稻米朋友</text>
+            <text class="menu-arrow">→</text>
+          </view>
+          
+          <view class="menu-item" bindtap="goToSettings">
+            <view class="menu-icon">⚙️</view>
+            <text class="menu-title">设置</text>
+            <text class="menu-desc">个人设置和隐私</text>
+            <text class="menu-arrow">→</text>
+          </view>
+          
+          <view class="menu-item" bindtap="goToFeedback">
+            <view class="menu-icon">💬</view>
+            <text class="menu-title">意见反馈</text>
+            <text class="menu-desc">帮助我们改进</text>
+            <text class="menu-arrow">→</text>
+          </view>
+          
+          <view class="menu-item" bindtap="goToAbout">
+            <view class="menu-icon">ℹ️</view>
+            <text class="menu-title">关于我们</text>
+            <text class="menu-desc">了解稻米之家</text>
+            <text class="menu-arrow">→</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 最近活动 -->
+  <view class="recent-section">
+    <view class="recent-card card">
+      <view class="card-header">
+        <text class="card-title">📝 最近活动</text>
+        <text class="view-all" bindtap="goToHistory">查看全部</text>
+      </view>
+      <view class="card-body">
+        <view class="activity-list">
+          <view 
+            class="activity-item"
+            wx:for="{{recentActivities}}" 
+            wx:key="id"
+          >
+            <view class="activity-icon">{{item.icon}}</view>
+            <view class="activity-content">
+              <text class="activity-title">{{item.title}}</text>
+              <text class="activity-time">{{item.timeAgo}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="empty-state" wx:if="{{recentActivities.length === 0}}">
+          <text class="empty-icon">🌾</text>
+          <text>暂无活动记录</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分享推荐 -->
+  <view class="share-section">
+    <view class="share-card card">
+      <view class="card-body">
+        <view class="share-content">
+          <text class="share-title">🎵 分享给朋友</text>
+          <text class="share-desc">邀请朋友一起听刀郎，感受音乐的力量</text>
+          <button class="btn btn-primary" bindtap="shareApp">
+            分享小程序
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<!-- 未登录状态 -->
+<view class="login-mask" wx:if="{{!isLoggedIn}}">
+  <view class="login-content">
+    <text class="login-icon">🌾</text>
+    <text class="login-title">欢迎来到稻米之家</text>
+    <text class="login-desc">登录后查看个人资料</text>
+    <button class="btn btn-primary" bindtap="handleLogin">
+      立即登录
+    </button>
+  </view>
+</view>

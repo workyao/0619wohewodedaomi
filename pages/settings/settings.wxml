@@ -1,0 +1,219 @@
+<!--pages/settings/settings.wxml-->
+<view class="page-container">
+  <!-- 账户设置 -->
+  <view class="settings-section">
+    <view class="section-title">账户设置</view>
+    <view class="settings-card card">
+      <view class="card-body">
+        <view class="setting-item" bindtap="editProfile">
+          <view class="setting-icon">👤</view>
+          <view class="setting-content">
+            <text class="setting-title">个人资料</text>
+            <text class="setting-desc">修改昵称、头像等信息</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+        
+        <view class="setting-item" bindtap="changePassword">
+          <view class="setting-icon">🔒</view>
+          <view class="setting-content">
+            <text class="setting-title">账户安全</text>
+            <text class="setting-desc">密码、绑定手机等</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 通知设置 -->
+  <view class="settings-section">
+    <view class="section-title">通知设置</view>
+    <view class="settings-card card">
+      <view class="card-body">
+        <view class="setting-item">
+          <view class="setting-icon">🔔</view>
+          <view class="setting-content">
+            <text class="setting-title">打卡提醒</text>
+            <text class="setting-desc">每日打卡提醒通知</text>
+          </view>
+          <switch 
+            class="setting-switch" 
+            checked="{{settings.checkinReminder}}"
+            bindchange="onCheckinReminderChange"
+          />
+        </view>
+        
+        <view class="setting-item">
+          <view class="setting-icon">💬</view>
+          <view class="setting-content">
+            <text class="setting-title">互动通知</text>
+            <text class="setting-desc">点赞、评论、关注通知</text>
+          </view>
+          <switch 
+            class="setting-switch" 
+            checked="{{settings.interactionNotification}}"
+            bindchange="onInteractionNotificationChange"
+          />
+        </view>
+        
+        <view class="setting-item">
+          <view class="setting-icon">📢</view>
+          <view class="setting-content">
+            <text class="setting-title">系统通知</text>
+            <text class="setting-desc">系统公告、活动通知</text>
+          </view>
+          <switch 
+            class="setting-switch" 
+            checked="{{settings.systemNotification}}"
+            bindchange="onSystemNotificationChange"
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 隐私设置 -->
+  <view class="settings-section">
+    <view class="section-title">隐私设置</view>
+    <view class="settings-card card">
+      <view class="card-body">
+        <view class="setting-item">
+          <view class="setting-icon">👁️</view>
+          <view class="setting-content">
+            <text class="setting-title">动态可见性</text>
+            <text class="setting-desc">{{privacyLabels[settings.postVisibility]}}</text>
+          </view>
+          <picker 
+            class="setting-picker"
+            range="{{privacyOptions}}"
+            range-key="label"
+            value="{{settings.postVisibility}}"
+            bindchange="onPostVisibilityChange"
+          >
+            <text class="picker-text">{{privacyLabels[settings.postVisibility]}}</text>
+          </picker>
+        </view>
+        
+        <view class="setting-item">
+          <view class="setting-icon">🔍</view>
+          <view class="setting-content">
+            <text class="setting-title">允许被搜索</text>
+            <text class="setting-desc">其他用户可以搜索到我</text>
+          </view>
+          <switch 
+            class="setting-switch" 
+            checked="{{settings.allowSearch}}"
+            bindchange="onAllowSearchChange"
+          />
+        </view>
+        
+        <view class="setting-item">
+          <view class="setting-icon">📊</view>
+          <view class="setting-content">
+            <text class="setting-title">数据统计</text>
+            <text class="setting-desc">允许收集使用数据用于改进</text>
+          </view>
+          <switch 
+            class="setting-switch" 
+            checked="{{settings.dataCollection}}"
+            bindchange="onDataCollectionChange"
+          />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 应用设置 -->
+  <view class="settings-section">
+    <view class="section-title">应用设置</view>
+    <view class="settings-card card">
+      <view class="card-body">
+        <view class="setting-item" bindtap="clearCache">
+          <view class="setting-icon">🗑️</view>
+          <view class="setting-content">
+            <text class="setting-title">清理缓存</text>
+            <text class="setting-desc">清理应用缓存数据</text>
+          </view>
+          <text class="setting-value">{{cacheSize}}</text>
+        </view>
+        
+        <view class="setting-item" bindtap="checkUpdate">
+          <view class="setting-icon">🔄</view>
+          <view class="setting-content">
+            <text class="setting-title">检查更新</text>
+            <text class="setting-desc">当前版本 {{version}}</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 帮助与反馈 -->
+  <view class="settings-section">
+    <view class="section-title">帮助与反馈</view>
+    <view class="settings-card card">
+      <view class="card-body">
+        <view class="setting-item" bindtap="goToHelp">
+          <view class="setting-icon">❓</view>
+          <view class="setting-content">
+            <text class="setting-title">使用帮助</text>
+            <text class="setting-desc">常见问题与使用指南</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+        
+        <view class="setting-item" bindtap="goToFeedback">
+          <view class="setting-icon">💌</view>
+          <view class="setting-content">
+            <text class="setting-title">意见反馈</text>
+            <text class="setting-desc">提交建议或问题反馈</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+        
+        <view class="setting-item" bindtap="contactUs">
+          <view class="setting-icon">📞</view>
+          <view class="setting-content">
+            <text class="setting-title">联系我们</text>
+            <text class="setting-desc">客服与技术支持</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="settings-section">
+    <view class="settings-card card">
+      <view class="card-body">
+        <view class="setting-item" bindtap="goToAbout">
+          <view class="setting-icon">ℹ️</view>
+          <view class="setting-content">
+            <text class="setting-title">关于我们</text>
+            <text class="setting-desc">了解稻米之家</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+        
+        <view class="setting-item" bindtap="goToPrivacyPolicy">
+          <view class="setting-icon">📋</view>
+          <view class="setting-content">
+            <text class="setting-title">隐私政策</text>
+            <text class="setting-desc">用户隐私保护说明</text>
+          </view>
+          <text class="setting-arrow">→</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="btn btn-outline btn-block logout-btn" bindtap="logout">
+      退出登录
+    </button>
+  </view>
+</view>

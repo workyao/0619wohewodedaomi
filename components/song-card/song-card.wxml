@@ -1,0 +1,29 @@
+<!--components/song-card/song-card.wxml-->
+<view class="song-card {{checked ? 'checked' : ''}}" bindtap="onTap">
+  <view class="song-checkbox" wx:if="{{showCheckbox}}">
+    <view class="checkbox {{checked ? 'checked' : ''}}">
+      <text class="check-icon" wx:if="{{checked}}">✓</text>
+    </view>
+  </view>
+  
+  <view class="song-content">
+    <view class="song-main">
+      <text class="song-title">{{song.title}}</text>
+      <text class="song-album">{{song.album}}</text>
+    </view>
+    
+    <view class="song-meta">
+      <text class="song-year" wx:if="{{song.year}}">{{song.year}}</text>
+      <text class="song-duration" wx:if="{{song.duration}}">{{song.duration}}</text>
+    </view>
+  </view>
+  
+  <view class="song-actions" wx:if="{{showActions}}">
+    <view class="action-btn" bindtap="onInfo" data-action="info">
+      <text class="action-icon">ℹ️</text>
+    </view>
+    <view class="action-btn" bindtap="onPlay" data-action="play" wx:if="{{showPlay}}">
+      <text class="action-icon">▶️</text>
+    </view>
+  </view>
+</view>

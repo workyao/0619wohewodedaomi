@@ -1,0 +1,422 @@
+/* pages/calendar/calendar.wxss */
+
+/* 顶部统计 */
+.stats-header {
+  margin-bottom: 20rpx;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20rpx 10rpx;
+}
+
+.stat-number {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin-bottom: 6rpx;
+}
+
+.stat-label {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+}
+
+/* 月份选择 */
+.month-selector {
+  margin-bottom: 20rpx;
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+  background: white;
+  border-radius: 16rpx;
+  margin: 0 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(139, 69, 19, 0.1);
+}
+
+.nav-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-color);
+  border: 1rpx solid var(--border-color);
+  border-radius: 50%;
+  font-size: 32rpx;
+  color: var(--text-primary);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  color: var(--text-secondary);
+}
+
+.nav-icon {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.month-info {
+  flex: 1;
+  text-align: center;
+  margin: 0 30rpx;
+}
+
+.month-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+/* 日历 */
+.calendar-section {
+  margin-bottom: 20rpx;
+}
+
+.calendar-card {
+  margin: 0 20rpx;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2rpx;
+  margin-bottom: 10rpx;
+}
+
+.weekday {
+  text-align: center;
+  padding: 16rpx 0;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2rpx;
+}
+
+.calendar-day {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--background-color);
+  border-radius: 8rpx;
+  transition: all 0.3s ease;
+  min-height: 80rpx;
+}
+
+.calendar-day:active {
+  transform: scale(0.95);
+}
+
+.calendar-day.other-month {
+  opacity: 0.3;
+}
+
+.calendar-day.today {
+  background: var(--accent-color);
+  color: white;
+}
+
+.calendar-day.checked {
+  background: var(--primary-color);
+  color: white;
+}
+
+.calendar-day.selected {
+  border: 2rpx solid var(--secondary-color);
+}
+
+.day-number {
+  font-size: 24rpx;
+  font-weight: 500;
+  margin-bottom: 4rpx;
+}
+
+.day-indicator {
+  position: absolute;
+  bottom: 4rpx;
+  right: 4rpx;
+  width: 20rpx;
+  height: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-icon {
+  font-size: 16rpx;
+}
+
+.day-streak {
+  position: absolute;
+  top: 2rpx;
+  left: 2rpx;
+  width: 20rpx;
+  height: 20rpx;
+  background: var(--success-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.streak-number {
+  font-size: 12rpx;
+  color: white;
+  font-weight: bold;
+}
+
+/* 选中日期详情 */
+.day-detail {
+  margin-bottom: 20rpx;
+}
+
+.detail-card {
+  margin: 0 20rpx;
+}
+
+.detail-item {
+  margin-bottom: 16rpx;
+}
+
+.detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.detail-label {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-right: 12rpx;
+}
+
+.mood-display {
+  display: inline-flex;
+  align-items: center;
+}
+
+.mood-emoji {
+  font-size: 24rpx;
+  margin-right: 8rpx;
+}
+
+.mood-text {
+  font-size: 26rpx;
+  color: var(--text-primary);
+}
+
+.songs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.song-tag {
+  padding: 6rpx 12rpx;
+  background: var(--background-color);
+  border: 1rpx solid var(--border-color);
+  border-radius: 16rpx;
+  font-size: 22rpx;
+  color: var(--text-primary);
+}
+
+.note-content {
+  font-size: 26rpx;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-top: 8rpx;
+}
+
+.checkin-time {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+.no-checkin {
+  text-align: center;
+  padding: 40rpx 20rpx;
+}
+
+.no-checkin-text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 20rpx;
+}
+
+/* 打卡趋势 */
+.trend-section {
+  margin-bottom: 20rpx;
+}
+
+.trend-card {
+  margin: 0 20rpx;
+}
+
+.trend-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trend-period {
+  display: flex;
+  gap: 12rpx;
+}
+
+.period-btn {
+  padding: 8rpx 16rpx;
+  border-radius: 16rpx;
+  font-size: 22rpx;
+  color: var(--text-secondary);
+  background: var(--background-color);
+  border: 1rpx solid var(--border-color);
+}
+
+.period-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.chart-placeholder {
+  text-align: center;
+  padding: 60rpx 20rpx;
+  background: var(--background-color);
+  border-radius: 12rpx;
+}
+
+.chart-text {
+  font-size: 32rpx;
+  color: var(--text-primary);
+  margin-bottom: 12rpx;
+}
+
+.chart-desc {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+/* 成就里程碑 */
+.milestones-section {
+  margin-bottom: 40rpx;
+}
+
+.milestones-card {
+  margin: 0 20rpx;
+}
+
+.milestones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.milestone-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: var(--background-color);
+  border-radius: 12rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.milestone-item.achieved {
+  border-color: var(--success-color);
+  background: rgba(34, 139, 34, 0.1);
+}
+
+.milestone-icon {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  font-size: 28rpx;
+  margin-right: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.milestone-content {
+  flex: 1;
+}
+
+.milestone-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 6rpx;
+}
+
+.milestone-desc {
+  display: block;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-bottom: 12rpx;
+}
+
+.milestone-progress {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 8rpx;
+  background: var(--border-color);
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 4rpx;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 20rpx;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.milestone-status {
+  margin-left: 16rpx;
+}
+
+.status-text {
+  font-size: 22rpx;
+  color: var(--text-secondary);
+  padding: 6rpx 12rpx;
+  border-radius: 12rpx;
+  background: var(--background-color);
+}
+
+.milestone-item.achieved .status-text {
+  color: var(--success-color);
+  background: rgba(34, 139, 34, 0.1);
+}

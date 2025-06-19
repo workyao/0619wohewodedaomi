@@ -1,0 +1,201 @@
+<!--pages/calendar/calendar.wxml-->
+<view class="page-container">
+  <!-- 顶部统计 -->
+  <view class="stats-header">
+    <view class="stats-card card">
+      <view class="card-body">
+        <view class="stats-grid">
+          <view class="stat-item">
+            <text class="stat-number">{{totalCheckins}}</text>
+            <text class="stat-label">总打卡</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-number">{{currentStreak}}</text>
+            <text class="stat-label">连续天数</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-number">{{thisMonthCheckins}}</text>
+            <text class="stat-label">本月打卡</text>
+          </view>
+          <view class="stat-item">
+            <text class="stat-number">{{checkinRate}}%</text>
+            <text class="stat-label">打卡率</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 月份选择 -->
+  <view class="month-selector">
+    <view class="month-nav">
+      <button class="nav-btn" bindtap="prevMonth">
+        <text class="nav-icon">‹</text>
+      </button>
+      <view class="month-info">
+        <text class="month-text">{{currentYear}}年{{currentMonth}}月</text>
+      </view>
+      <button class="nav-btn" bindtap="nextMonth" disabled="{{isCurrentMonth}}">
+        <text class="nav-icon">›</text>
+      </button>
+    </view>
+  </view>
+
+  <!-- 日历 -->
+  <view class="calendar-section">
+    <view class="calendar-card card">
+      <view class="card-body">
+        <!-- 星期标题 -->
+        <view class="weekdays">
+          <text class="weekday" wx:for="{{weekdays}}" wx:key="*this">{{item}}</text>
+        </view>
+        
+        <!-- 日期网格 -->
+        <view class="calendar-grid">
+          <view 
+            class="calendar-day {{day.isCurrentMonth ? '' : 'other-month'}} {{day.isToday ? 'today' : ''}} {{day.hasCheckin ? 'checked' : ''}} {{day.isSelected ? 'selected' : ''}}"
+            wx:for="{{calendarDays}}" 
+            wx:key="date"
+            wx:for-item="day"
+            bindtap="selectDay"
+            data-day="{{day}}"
+          >
+            <text class="day-number">{{day.day}}</text>
+            <view class="day-indicator" wx:if="{{day.hasCheckin}}">
+              <text class="indicator-icon">{{day.checkinData.mood ? day.checkinData.moodEmoji : '✓'}}</text>
+            </view>
+            <view class="day-streak" wx:if="{{day.streakDay && day.hasCheckin}}">
+              <text class="streak-number">{{day.streakDay}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 选中日期详情 -->
+  <view class="day-detail" wx:if="{{selectedDay}}">
+    <view class="detail-card card">
+      <view class="card-header">
+        <text class="card-title">{{selectedDay.dateStr}} 打卡详情</text>
+      </view>
+      <view class="card-body">
+        <view class="checkin-detail" wx:if="{{selectedDay.hasCheckin}}">
+          <!-- 心情 -->
+          <view class="detail-item" wx:if="{{selectedDay.checkinData.mood}}">
+            <text class="detail-label">心情：</text>
+            <text class="mood-display">
+              <text class="mood-emoji">{{selectedDay.checkinData.moodEmoji}}</text>
+              <text class="mood-text">{{selectedDay.checkinData.moodText}}</text>
+            </text>
+          </view>
+          
+          <!-- 歌曲列表 -->
+          <view class="detail-item" wx:if="{{selectedDay.checkinData.songs}}">
+            <text class="detail-label">听过的歌曲：</text>
+            <view class="songs-list">
+              <text 
+                class="song-tag"
+                wx:for="{{selectedDay.checkinData.songs}}" 
+                wx:key="id"
+                bindtap="goToSongDetail"
+                data-song-id="{{item.id}}"
+              >
+                🎵 {{item.title}}
+              </text>
+            </view>
+          </view>
+          
+          <!-- 备注 -->
+          <view class="detail-item" wx:if="{{selectedDay.checkinData.note}}">
+            <text class="detail-label">备注：</text>
+            <text class="note-content">{{selectedDay.checkinData.note}}</text>
+          </view>
+          
+          <!-- 打卡时间 -->
+          <view class="detail-item">
+            <text class="detail-label">打卡时间：</text>
+            <text class="checkin-time">{{selectedDay.checkinData.timeStr}}</text>
+          </view>
+        </view>
+        
+        <!-- 未打卡状态 -->
+        <view class="no-checkin" wx:else>
+          <text class="no-checkin-text">这一天还没有打卡记录</text>
+          <button 
+            class="btn btn-primary btn-small" 
+            bindtap="goToCheckin"
+            wx:if="{{selectedDay.isToday}}"
+          >
+            去打卡
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 打卡趋势 -->
+  <view class="trend-section">
+    <view class="trend-card card">
+      <view class="card-header">
+        <text class="card-title">📈 打卡趋势</text>
+        <view class="trend-period">
+          <text 
+            class="period-btn {{trendPeriod === item ? 'active' : ''}}"
+            wx:for="{{trendPeriods}}" 
+            wx:key="*this"
+            bindtap="changeTrendPeriod"
+            data-period="{{item}}"
+          >
+            {{item}}
+          </text>
+        </view>
+      </view>
+      <view class="card-body">
+        <view class="trend-chart">
+          <!-- 这里可以集成图表组件 -->
+          <view class="chart-placeholder">
+            <text class="chart-text">📊 打卡趋势图</text>
+            <text class="chart-desc">最近{{trendPeriod}}的打卡情况</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成就里程碑 -->
+  <view class="milestones-section">
+    <view class="milestones-card card">
+      <view class="card-header">
+        <text class="card-title">🏆 成就里程碑</text>
+      </view>
+      <view class="card-body">
+        <view class="milestones-list">
+          <view 
+            class="milestone-item {{milestone.achieved ? 'achieved' : ''}}"
+            wx:for="{{milestones}}" 
+            wx:key="id"
+          >
+            <view class="milestone-icon">{{milestone.icon}}</view>
+            <view class="milestone-content">
+              <text class="milestone-title">{{milestone.title}}</text>
+              <text class="milestone-desc">{{milestone.desc}}</text>
+              <view class="milestone-progress" wx:if="{{!milestone.achieved}}">
+                <view class="progress-bar">
+                  <view 
+                    class="progress-fill" 
+                    style="width: {{milestone.progress}}%"
+                  ></view>
+                </view>
+                <text class="progress-text">{{milestone.current}}/{{milestone.target}}</text>
+              </view>
+            </view>
+            <view class="milestone-status">
+              <text class="status-text">{{milestone.achieved ? '已达成' : '进行中'}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
